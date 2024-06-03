@@ -10,8 +10,6 @@ class Snake():
         self.positions = [((screen_width/2), (screen_height/2))]
         self.direction = random.choice([up, down, left, right])
         self.color = (17, 24, 47)
-        # Special thanks to YouTubers Mini - Cafetos and Knivens Beast for raising this issue!
-        # Code adjustment courtesy of YouTuber Elija de Hoog
         self.score = 0
 
     def get_head_position(self):
@@ -112,8 +110,8 @@ def main():
     snake = Snake()
     food = Food()
 
-    #sound = pygame.mixer.Sound("bg_music_1.mp3")
-    #pygame.mixer.Sound.play(sound)
+    sound = pygame.mixer.Sound("bg_music_1.mp3")
+    pygame.mixer.Sound.play(sound)
     myfont = pygame.font.SysFont("monospace",16)
 
     while (True):
