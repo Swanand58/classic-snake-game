@@ -3,7 +3,6 @@ import sys
 import random
 pygame.font.init()
 
-
 class Snake():
     def __init__(self):
         self.length = 1
@@ -66,7 +65,7 @@ class Food():
         self.randomize_position()
 
     def randomize_position(self):
-        self.position = (random.randint(0, grid_width-1)*gridsize, random.randint(0, grid_height-1)*gridsize)
+        self.position = (random.randint(0, int(grid_width)-1)*gridsize, random.randint(0, int(grid_height)-1)*gridsize)
 
     def draw(self, surface):
         r = pygame.Rect((self.position[0], self.position[1]), (gridsize, gridsize))
