@@ -2,6 +2,7 @@ import pygame
 import sys
 import random
 pygame.font.init()
+import time
 
 class Snake():
     def __init__(self):
@@ -72,6 +73,27 @@ class Food():
         pygame.draw.rect(surface, self.color, r)
         pygame.draw.rect(surface, (93, 216, 228), r, 1)
 
+
+class SpecialFood():
+    def __init__(self):
+        self.position = (0, 0)
+        self.color = (255, 0, 0)
+        self.spawn_time = None
+
+    def randomize_position(self):
+        self.position = (random.randint(0, int(grid_width) - 1) * gridsize, random.randint(0, int(grid_height) - 1) * gridsize)
+        self.spawn_time = time.time()
+
+    def draw(self, surface):
+        current_time = time.time()
+        if int(current_time * 10) % 2 == 0:
+            r = pygame.Rect((self.position[0], self.position[1]), (gridsize, gridsize))
+            pygame.draw.rect(surface, self.color, r)
+            pygame.draw.rect(surface, (93, 216, 228), r, 1)
+
+    def is_expired(self):
+        return time.time() - self.spawn_time > 5
+
 def drawGrid(surface):
     for y in range(0, int(grid_height)):
         for x in range(0, int(grid_width)):
@@ -101,6 +123,7 @@ def main():
 
     clock = pygame.time.Clock()
     screen = pygame.display.set_mode((screen_width, screen_height), 0, 32)
+    pygame.display.set_caption('Snake')
 
     surface = pygame.Surface(screen.get_size())
     surface = surface.convert()
@@ -108,22 +131,45 @@ def main():
 
     snake = Snake()
     food = Food()
+    special_food = SpecialFood()
+    next_special_food_score = snake.score + random.randint(5, 10)
+    special_food_active = False
 
-    sound = pygame.mixer.Sound("bg_music_1.mp3")
+    sound = pygame.mixer.Sound("bg-music-1.mp3")
     pygame.mixer.Sound.play(sound)
     myfont = pygame.font.SysFont("monospace",16)
 
     while (True):
-        clock.tick(10)
+        clock.tick(7)
         snake.handle_keys()
         drawGrid(surface)
         snake.move()
+
         if snake.get_head_position() == food.position:
             snake.length += 1
             snake.score += 1
             food.randomize_position()
+
+            if snake.score >= next_special_food_score:
+                special_food.randomize_position()
+                special_food_active = True
+        
+        if special_food_active:
+            if snake.get_head_position() == special_food.position:
+                snake.score += 5
+                special_food_active = False
+                next_special_food_score = snake.score + random.randint(5, 10)
+            elif special_food.is_expired():
+                special_food_active = False
+                next_special_food_score = snake.score + random.randint(5, 10)
+
+
         snake.draw(surface)
         food.draw(surface)
+
+        if special_food_active:
+            special_food.draw(surface)
+
         screen.blit(surface, (0,0))
         text = STAT_FONT.render("Score : {0}".format(snake.score), 5, (0,0,0))
         screen.blit(text, (5,10))

@@ -50,3 +50,7 @@ python snake.py
 - bg_music_1.mp3: A .mp3 file used as the background music.
 
 Feel free to customize this README file further based on any additional features or details you want to include.
+
+### Screenshots
+
+![alt image](ss1.png)
