@@ -150,6 +150,10 @@ def main():
             snake.score += 1
             food.randomize_position()
 
+            if special_food_active:
+                special_food_active = False
+                next_special_food_score = snake.score + random.randint(5, 10)
+
             if snake.score >= next_special_food_score:
                 special_food.randomize_position()
                 special_food_active = True
