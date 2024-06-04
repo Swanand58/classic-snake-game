@@ -13,8 +13,8 @@ To run the game, you need to have Python and Pygame installed. You can install t
 1. Clone the repository:
 
    ```sh
-   git clone https://github.com/Swanand58/Snake_game_Pygames.git
-   cd Snake_game_Pygames
+   git clone https://github.com/Swanand58/classic-snake-game.git
+   cd classic-snake-game
    ```
 
 2. Create a virtual environment (optional but recommended):
