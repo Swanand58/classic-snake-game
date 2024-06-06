@@ -53,4 +53,4 @@ Feel free to customize this README file further based on any additional features
 
 ### Screenshots
 
-![alt video](screenrec.gif)
+![alt image](ss1.png)
