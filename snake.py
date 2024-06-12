@@ -4,13 +4,15 @@ import random
 pygame.font.init()
 import time
 
+
 class Snake():
-    def __init__(self):
+    def __init__(self, gameover_sound):
         self.length = 1
         self.positions = [((screen_width/2), (screen_height/2))]
         self.direction = random.choice([up, down, left, right])
         self.color = (17, 24, 47)
         self.score = 0
+        self.gameover_sound = gameover_sound
 
     def get_head_position(self):
         return self.positions[0]
@@ -27,6 +29,7 @@ class Snake():
         new = (((cur[0]+(x*gridsize))%screen_width), (cur[1]+(y*gridsize))%screen_height)
         if len(self.positions) > 2 and new in self.positions[2:]:
             self.reset()
+
         else:
             self.positions.insert(0,new)
             if len(self.positions) > self.length:
@@ -37,6 +40,7 @@ class Snake():
         self.positions = [((screen_width/2), (screen_height/2))]
         self.direction = random.choice([up, down, left, right])
         self.score = 0
+        self.gameover_sound.play()
 
     def draw(self,surface):
         for p in self.positions:
@@ -128,8 +132,9 @@ def main():
     surface = pygame.Surface(screen.get_size())
     surface = surface.convert()
     drawGrid(surface)
+    gameover_sound = pygame.mixer.Sound("gameover.mp3")
 
-    snake = Snake()
+    snake = Snake(gameover_sound=gameover_sound)
     food = Food()
     special_food = SpecialFood()
     next_special_food_score = snake.score + random.randint(5, 10)
@@ -137,7 +142,8 @@ def main():
 
     sound = pygame.mixer.Sound("bg-music-1.mp3")
     score_sound = pygame.mixer.Sound("score.mp3")
-    game_over = pygame.mixer.Sound("game-over.mp3")
+    
+    
 
     pygame.mixer.Sound.play(sound)
     myfont = pygame.font.SysFont("monospace",16)
