@@ -136,6 +136,9 @@ def main():
     special_food_active = False
 
     sound = pygame.mixer.Sound("bg-music-1.mp3")
+    score_sound = pygame.mixer.Sound("score.mp3")
+    game_over = pygame.mixer.Sound("game-over.mp3")
+
     pygame.mixer.Sound.play(sound)
     myfont = pygame.font.SysFont("monospace",16)
 
@@ -149,6 +152,7 @@ def main():
             snake.length += 1
             snake.score += 1
             food.randomize_position()
+            score_sound.play()
 
             if special_food_active:
                 special_food_active = False
@@ -163,6 +167,7 @@ def main():
                 snake.score += 5
                 special_food_active = False
                 next_special_food_score = snake.score + random.randint(5, 10)
+                score_sound.play()
             elif special_food.is_expired():
                 special_food_active = False
                 next_special_food_score = snake.score + random.randint(5, 10)
